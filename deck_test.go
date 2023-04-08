@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"testing"
 )
 
@@ -27,5 +28,21 @@ func TestNewDeck(t *testing.T) {
 
 	if lastCard != expectedLastCard {
 		t.Errorf("Expected last card to be " + expectedLastCard + ", but got %s", lastCard)
+	}
+}
+
+func TestSaveToFileAndLoadFromFile(t *testing.T) {
+	fileName := "_deck_testing"
+	os.Remove(fileName)
+
+	d := newDeck()
+	d.saveToFile(fileName) 
+
+	loadedDeck := loadFromFile(fileName)
+	deckLength := len(loadedDeck)
+	expectedLength := 52
+
+	if deckLength != expectedLength {
+		t.Errorf("Expected deck length of " + fmt.Sprintf("%v", expectedLength) + " but got %v", deckLength)
 	}
 }
